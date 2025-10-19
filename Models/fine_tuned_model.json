@@ -1,0 +1,7 @@
+{
+  "model": "gpt-4",
+  "fine_tuned": true,
+  "training_samples": 100,
+  "accuracy": "simulated 92%",
+  "notes": "This is a placeholder config for future Gemini fine-tuning."
+}
