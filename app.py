@@ -1,5 +1,9 @@
 import streamlit as st
 import os
+import librosa
+import librosa.display
+import matplotlib.pyplot as plt
+import numpy as np
 from audio_utils import extract_features
 from gemini_engine import classify_raga
 
@@ -29,6 +33,16 @@ if uploaded_file:
     st.write("Extracting features...")
     features = extract_features(file_path)
     st.json(features)
+
+    # Spectrogram visualization
+    st.write("🎼 Spectrogram of the audio")
+    y, sr = librosa.load(file_path)
+    fig, ax = plt.subplots()
+    S = librosa.feature.melspectrogram(y=y, sr=sr)
+    S_dB = librosa.power_to_db(S, ref=np.max)
+    librosa.display.specshow(S_dB, sr=sr, ax=ax, x_axis='time', y_axis='mel')
+    ax.set(title='Mel-frequency spectrogram')
+    st.pyplot(fig)
 
     st.write("Classifying raga using Gemini...")
     result = classify_raga(features)
